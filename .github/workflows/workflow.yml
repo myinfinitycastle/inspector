@@ -26,5 +26,5 @@ jobs:
             --instance-type t3.xlarge \
             --key-name my-key-pairs \
             --security-group-ids sg-5a1ce00e \
-            --subnet-id subnet-f3af76ae \
+            --subnet-id subnet-9fdc34d5 \
             --block-device-mappings '[{"DeviceName":"/dev/xvda","Ebs":{"VolumeSize":100,"VolumeType":"gp3"}}]'
