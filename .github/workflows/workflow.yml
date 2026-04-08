@@ -1,15 +1,11 @@
-
 name: create EC2 instance on AWS
-
 on:
   push:
     branches: ["main"]
-
 jobs:
   create-ec2:
     runs-on: ubuntu-latest
     environment: AWS_CREDENTIAL
-
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v5
@@ -17,14 +13,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-
       - name: Launch EC2 Instance
         run: |
           aws ec2 run-instances \
-            --image-id ami-0d76b909de1a0595d \
+            --image-id ${{ secrets.AWS_AMI_ID }} \
             --count 1 \
             --instance-type t3.xlarge \
-            --key-name my-key-pairs \
-            --security-group-ids sg-5a1ce00e \
-            --subnet-id subnet-9fdc34d5 \
+            --key-name ${{ secrets.AWS_KEY_NAME }} \
+            --security-group-ids ${{ secrets.AWS_SG_ID }} \
+            --subnet-id ${{ secrets.AWS_SUBNET_ID }} \
             --block-device-mappings '[{"DeviceName":"/dev/xvda","Ebs":{"VolumeSize":100,"VolumeType":"gp3"}}]'
