@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create EC2 Instance
+
+Parameters:
+  KeyName:
+    Type: String
+  AmiId:
+    Type: String
+  SubnetId:
+    Type: String
+  SecurityGroupId:
+    Type: String
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref AmiId
+      InstanceType: t3.xlarge
+      KeyName: !Ref KeyName
+      SubnetId: !Ref SubnetId
+      SecurityGroupIds:
+        - !Ref SecurityGroupId
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            VolumeSize: 100
+            VolumeType: gp3
+
+Outputs:
+  InstanceId:
+    Description: EC2 Instance ID
+    Value: !Ref MyEC2Instance
+  PublicIP:
+    Description: Public IP of EC2
+    Value: !GetAtt MyEC2Instance.PublicIp
